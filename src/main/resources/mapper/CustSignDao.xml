@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.CustSignDao">
+    <select id="qryCustSign" parameterType="java.util.Map" resultType="java.lang.Integer">
+       select count(*)
+         from USERLIST
+        where idseq = #{gwkh,jdbcType=VARCHAR}
+          and wechatid = #{open_id,jdbcType=VARCHAR}
+          and signature is not null
+    </select>
+    <update id="updCustSign" parameterType="java.util.Map">
+    update USERLIST
+    set SIGNATURE = #{signature,javaType=String,jdbcType=BLOB}
+    where IDSEQ = #{gwkh,jdbcType=VARCHAR}
+      and WECHATID = #{open_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

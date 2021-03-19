@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.CheckCanclePostDao">
+
+    <select id="isCanclePost" statementType="CALLABLE" resultType="java.util.Map">
+        {CALL dbusrit.if_custpost.qry_cancelpost
+        (#{seq_no,mode=IN,jdbcType=DECIMAL},
+        #{ret_flag,mode=OUT,jdbcType=VARCHAR}
+        )}
+    </select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.UserDao">
+
+	<select id="registerUser" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.util.Map">
+		{CALL dbusrit.if_custpost.insert_register
+		(#{id_type,mode=IN,jdbcType=VARCHAR},
+		 #{card_id,mode=IN,jdbcType=VARCHAR},
+		 #{tel_num,mode=IN,jdbcType=VARCHAR},
+		 #{open_id,mode=IN,jdbcType=VARCHAR},
+		 #{ret_flag,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+
+    <insert id="insert" keyColumn="SEQNO" keyProperty="seqno" parameterType="com.ctg.custpost.pojo.dto.Postvercode" useGeneratedKeys="true">
+    insert into POSTVERCODE (SEQNO,OPENID, GWKH, FSTIME,
+      VERCODE, TELNUM)
+    values (SEQ_POSTVERCODE.nextval,#{openid,jdbcType=VARCHAR}, #{gwkh,jdbcType=VARCHAR}, sysdate,
+      #{vercode,jdbcType=VARCHAR}, #{telnum,jdbcType=VARCHAR})
+  </insert>
+
+	<select id="login" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.util.Map">
+		{CALL dbusrit.if_custpost.qry_openiduser
+		(#{open_id,mode=IN,jdbcType=VARCHAR},
+		 #{ret_flag,mode=OUT,jdbcType=VARCHAR},
+		 #{card_id,mode=OUT,jdbcType=VARCHAR},
+		 #{tel_num,mode=OUT,jdbcType=VARCHAR},
+		 #{user_name,mode=OUT,jdbcType=VARCHAR},
+		 #{id_type,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+	
+	<select id="getVercode" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.util.Map">
+		{CALL dbusrit.if_custpost.insert_sendmsg
+		(#{ver_code,mode=IN,jdbcType=VARCHAR},
+		 #{tel_num,mode=IN,jdbcType=VARCHAR},
+		 #{ret_info,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+	
+	<select id="weChat" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.util.Map">
+		{CALL dbusrit.if_custpost.qry_openiduser
+		(#{open_id,mode=IN,jdbcType=VARCHAR},
+		 #{ret_flag,mode=OUT,jdbcType=VARCHAR},
+		 #{card_id,mode=OUT,jdbcType=VARCHAR},
+		 #{tel_num,mode=OUT,jdbcType=VARCHAR},
+		 #{user_name,mode=OUT,jdbcType=VARCHAR},
+		 #{id_type,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+
+    <resultMap id="BaseResultMap" type="com.ctg.custpost.pojo.dto.Postvercode">
+        <id column="SEQNO" jdbcType="DECIMAL" property="seqno" />
+        <result column="OPENID" jdbcType="VARCHAR" property="openid" />
+        <result column="GWKH" jdbcType="VARCHAR" property="gwkh" />
+        <result column="FSTIME" jdbcType="TIMESTAMP" property="fstime" />
+        <result column="VERCODE" jdbcType="VARCHAR" property="vercode" />
+        <result column="TELNUM" jdbcType="VARCHAR" property="telnum" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    SEQNO, OPENID, GWKH, FSTIME, VERCODE, TELNUM
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from (select
+              *
+               from POSTVERCODE
+              where gwkh = #{gwkh,jdbcType=VARCHAR}
+                and telnum = #{tel_num,jdbcType=VARCHAR}
+           order by fstime desc)
+        where rownum=1
+    </select>
+	
+</mapper>

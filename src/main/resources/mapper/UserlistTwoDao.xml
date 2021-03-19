@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.UserlistTwoDao">
+  <resultMap id="BaseResultMap" type="com.ctg.custpost.pojo.dto.Userlist">
+    <id column="IDSEQ" jdbcType="VARCHAR" property="idseq" />
+    <result column="IDTYPE" jdbcType="VARCHAR" property="idtype" />
+    <result column="IDNO" jdbcType="VARCHAR" property="idno" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TELPHNO" jdbcType="VARCHAR" property="telphno" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="WECHATID" jdbcType="VARCHAR" property="wechatid" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="REGISTERDATE" jdbcType="TIMESTAMP" property="registerdate" />
+    <result column="LASTLOGINTIME" jdbcType="TIMESTAMP" property="lastlogintime" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    IDSEQ, IDTYPE, IDNO, "STATUS", "NAME", TELPHNO, EMAIL, WECHATID, "PASSWORD", REGISTERDATE, 
+    LASTLOGINTIME, MEMO
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from USERLIST
+    where WECHATID = #{openId,jdbcType=VARCHAR}
+  </select>
+</mapper>

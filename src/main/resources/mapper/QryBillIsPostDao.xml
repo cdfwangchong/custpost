@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.QryBillIsPostDao">
+    <select id="qryNotPostBill" statementType="CALLABLE" resultType="java.util.Map">
+        {CALL dbusrit.if_custpost.qry_sellhead
+        (#{openId,mode=IN,jdbcType=VARCHAR},
+        #{wyjRc,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=BillEntity},
+        #{ret_flag,mode=OUT,jdbcType=VARCHAR},
+        #{ret_name,mode=OUT,jdbcType=VARCHAR},
+        #{ret_card,mode=OUT,jdbcType=VARCHAR}
+        )}
+    </select>
+
+    <resultMap type="com.ctg.custpost.pojo.until.BillEntity" id="BillEntity">
+        <result column="market" property="market"/>
+        <result column="xsdno" property="shxsdno"/>
+        <result column="shoughtpay" property="shoughtpay"/>
+    </resultMap>
+
+    <select id="qryPostBill" statementType="CALLABLE" resultType="java.util.Map">
+        {CALL dbusrit.if_custpost.qry_custaddrlist
+        (#{openId,mode=IN,jdbcType=VARCHAR},
+        #{yjRc,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=CustAddrlistEntity}
+        )}
+    </select>
+
+    <resultMap type="com.ctg.custpost.pojo.until.CustAddrlistEntity" id="CustAddrlistEntity">
+        <result column="traceno" property="trace_no"/>
+        <result column="seqno" property="seq_no"/>
+        <result column="recname" property="rec_name"/>
+        <result column="recphoneno" property="rec_phoneno"/>
+        <result column="recpostcode" property="rec_postcode"/>
+        <result column="recprovincename" property="rec_provincename"/>
+        <result column="reccityname" property="rec_cityname"/>
+        <result column="recareaname" property="rec_areaname"/>
+        <result column="rectownname" property="rec_townname"/>
+        <result column="recdetailaddress" property="rec_detailaddress"/>
+        <result column="recxsdno" property="rec_xsdno"/>
+        <result column="market" property="market"/>
+    </resultMap>
+</mapper>

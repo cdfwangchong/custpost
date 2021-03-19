@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.QrytraceDao">
+    <select id="QryWaybilltrace" statementType="CALLABLE" resultType="java.util.Map">
+        {CALL dbusrit.if_custpost.qry_poststatus
+        (#{traceno,mode=IN,jdbcType=VARCHAR},
+        #{ret_flag,mode=OUT,jdbcType=VARCHAR},
+        #{ret_msg,mode=OUT,jdbcType=VARCHAR},
+        #{traceRc,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=WaybilltraceDto}
+        )}
+    </select>
+
+    <resultMap type="com.ctg.custpost.pojo.dto.WaybilltraceDto" id="WaybilltraceDto">
+        <result column="SEQNO" property="SEQNO"/>
+        <result column="TRACENO" property="TRACENO"/>
+        <result column="OPTIME" property="OPTIME"/>
+        <result column="OPCODE" property="OPCODE"/>
+        <result column="OPNAME" property="OPNAME"/>
+        <result column="OPDESC" property="OPDESC"/>
+        <result column="OPORGPROVNAME" property="OPORGPROVNAME"/>
+        <result column="OPORGCITY" property="OPORGCITY"/>
+        <result column="OPORGCODE" property="OPORGCODE"/>
+        <result column="OPORGNAME" property="OPORGNAME"/>
+        <result column="OPERATORNO" property="OPERATORNO"/>
+        <result column="OPERATORNAME" property="OPERATORNAME"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.SellDetailDao">
+    <resultMap id="BaseResultMap" type="com.ctg.custpost.pojo.dto.PickBillDto">
+        <result column="GBID" jdbcType="VARCHAR" property="gbid" />
+        <result column="GBCNAME" jdbcType="VARCHAR" property="gb_name" />
+        <result column="SDSL" jdbcType="INTEGER" property="count" />
+        <result column="SDPRICE" jdbcType="DECIMAL" property="trans_price" />
+        <result column="SDCJJE" jdbcType="DECIMAL" property="trans_amount" />
+    </resultMap>
+    <select id="QrySellDetail" parameterType="com.ctg.custpost.pojo.dto.PickNumDto" resultMap="BaseResultMap">
+        select
+            gb.gbcname gbcname,
+            gb.gbid gbid,
+            sd.sdsl sdsl,
+            sd.sdprice sdprice,
+            sd.sdcjje sdcjje
+       from dbusrpos.sellhead_sh sh,dbusrpos.selldetail sd,dbusrpos.goodsbase gb
+      where sh.shxsdno = #{xsdno,jdbcType=VARCHAR}
+        and sh.shbillno = sd.sdbillno
+        and sd.sdgdid = gb.gbid
+    </select>
+
+</mapper>

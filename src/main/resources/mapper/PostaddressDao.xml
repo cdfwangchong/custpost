@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctg.custpost.dao.PostaddressDao">
+  <resultMap id="BaseResultMap" type="com.ctg.custpost.pojo.dto.PostaddressDto">
+    <id column="GWKH" jdbcType="VARCHAR" property="gwkh" />
+    <result column="RECNAME" jdbcType="VARCHAR" property="rec_name" />
+    <result column="RECPHONENO" jdbcType="VARCHAR" property="rec_phoneno" />
+    <result column="RECPOSTCODE" jdbcType="VARCHAR" property="rec_postcode" />
+    <result column="RECPROVINCENAME" jdbcType="VARCHAR" property="rec_provincename" />
+    <result column="RECCITYNAME" jdbcType="VARCHAR" property="rec_cityname" />
+    <result column="RECAREANAME" jdbcType="VARCHAR" property="rec_areaname" />
+    <result column="DELETE_FLAG" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="FSDATE" jdbcType="TIMESTAMP" property="fsdate" />
+    <result column="RECTOWNNAME" jdbcType="VARCHAR" property="rec_townname" />
+    <result column="RECDETAILADDRESS" jdbcType="VARCHAR" property="rec_detailaddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    GWKH, RECNAME, RECPHONENO, RECPOSTCODE, RECPROVINCENAME, RECCITYNAME, RECAREANAME,
+    DELETE_FLAG, FSDATE, RECTOWNNAME, RECDETAILADDRESS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from(select
+      <include refid="Base_Column_List" />
+      from custpostaddr
+      where GWKH = #{gwkh,jdbcType=VARCHAR}
+      order by FSDATE desc)
+    where rownum = 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from custpostaddr
+    where GWKH = #{gwkh,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert"  parameterType="com.ctg.custpost.pojo.dto.PostaddressDto" useGeneratedKeys="false">
+    insert into custpostaddr (GWKH,RECNAME, RECPHONENO, RECPOSTCODE,
+      RECPROVINCENAME, RECCITYNAME, RECAREANAME, FSDATE, RECTOWNNAME,
+      RECDETAILADDRESS)
+    values (#{gwkh,jdbcType=VARCHAR},#{rec_name,jdbcType=VARCHAR}, #{rec_phoneno,jdbcType=VARCHAR}, #{rec_postcode,jdbcType=VARCHAR},
+      #{rec_provincename,jdbcType=VARCHAR}, #{rec_cityname,jdbcType=VARCHAR}, #{rec_areaname,jdbcType=VARCHAR},
+      sysdate, #{rec_townname,jdbcType=VARCHAR},
+      #{rec_detailaddress,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ctg.custpost.pojo.dto.PostaddressDto">
+    update custpostaddr
+    set RECNAME = #{rec_name,jdbcType=VARCHAR},
+      RECPHONENO = #{rec_phoneno,jdbcType=VARCHAR},
+      RECPOSTCODE = #{rec_postcode,jdbcType=VARCHAR},
+      RECPROVINCENAME = #{rec_provincename,jdbcType=VARCHAR},
+      RECCITYNAME = #{rec_cityname,jdbcType=VARCHAR},
+      RECAREANAME = #{rec_areaname,jdbcType=VARCHAR},
+      FSDATE = sysdate,
+      RECTOWNNAME = #{rec_townname,jdbcType=VARCHAR},
+      RECDETAILADDRESS = #{rec_detailaddress,jdbcType=VARCHAR}
+    where GWKH = #{gwkh,jdbcType=VARCHAR}
+  </update>
+
+  <select id="ismodifyaddress" statementType="CALLABLE" resultType="java.util.Map">
+        {CALL dbusrit.if_custpost.qry_ismodifyaddress
+        (#{openId,mode=IN,jdbcType=VARCHAR},
+        #{ret_flag,mode=OUT,jdbcType=VARCHAR}
+        )}
+  </select>
+
+</mapper>
