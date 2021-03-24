@@ -7,7 +7,8 @@
         #{wyjRc,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=BillEntity},
         #{ret_flag,mode=OUT,jdbcType=VARCHAR},
         #{ret_name,mode=OUT,jdbcType=VARCHAR},
-        #{ret_card,mode=OUT,jdbcType=VARCHAR}
+        #{ret_card,mode=OUT,jdbcType=VARCHAR},
+        #{ret_msg,mode=OUT,jdbcType=VARCHAR}
         )}
     </select>
 

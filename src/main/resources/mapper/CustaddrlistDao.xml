@@ -1,50 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ctg.custpost.dao.CustaddrlistDao">
-  <resultMap id="BaseResultMap" type="com.ctg.custpost.pojo.dto.Custaddrlist">
-    <id column="SEQNO" jdbcType="DECIMAL" property="seqno" />
-    <result column="GWKH" jdbcType="VARCHAR" property="gwkh" />
-    <result column="RECNAME" jdbcType="VARCHAR" property="recname" />
-    <result column="RECPHONENO" jdbcType="VARCHAR" property="recphoneno" />
-    <result column="RECPOSTCODE" jdbcType="VARCHAR" property="recpostcode" />
-    <result column="RECPROVINCENAME" jdbcType="VARCHAR" property="recprovincename" />
-    <result column="RECCITYNAME" jdbcType="VARCHAR" property="reccityname" />
-    <result column="RECAREANAME" jdbcType="VARCHAR" property="recareaname" />
-    <result column="RECTOWNNAME" jdbcType="VARCHAR" property="rectownname" />
-    <result column="RECDETAILADDRESS" jdbcType="VARCHAR" property="recdetailaddress" />
-    <result column="TYPE" jdbcType="VARCHAR" property="type" />
-    <result column="MARKET" jdbcType="VARCHAR" property="market" />
-    <result column="RECXSDNO" jdbcType="VARCHAR" property="recxsdno" />
-    <result column="RECPKGCNT" jdbcType="DECIMAL" property="recpkgcnt" />
-    <result column="FLAG" jdbcType="CHAR" property="flag" />
-    <result column="ERRNO" jdbcType="DECIMAL" property="errno" />
-    <result column="ERRMSG" jdbcType="VARCHAR" property="errmsg" />
-    <result column="ZGHQR" jdbcType="VARCHAR" property="zghqr" />
-    <result column="ZGHQSJ" jdbcType="VARCHAR" property="zghqsj" />
-    <result column="ZGHQBW" jdbcType="VARCHAR" property="zghqbw" />
-    <result column="YJXSDNO" jdbcType="VARCHAR" property="yjxsdno" />
-    <result column="YJCNT" jdbcType="DECIMAL" property="yjcnt" />
-    <result column="TRACENO" jdbcType="VARCHAR" property="traceno" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    SEQNO, GWKH, RECNAME, RECPHONENO, RECPOSTCODE, RECPROVINCENAME, RECCITYNAME, RECAREANAME, 
-    RECTOWNNAME, RECDETAILADDRESS, "TYPE", MARKET, RECXSDNO, RECPKGCNT, FLAG, ERRNO, 
-    ERRMSG, ZGHQR, ZGHQSJ, ZGHQBW, YJXSDNO, YJCNT, TRACENO
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from CUSTADDRLIST
-    where SEQNO = #{seqno,jdbcType=DECIMAL}
-  </select>
+  <update id="updateByPrimaryKey" parameterType="java.util.List">
+      <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+        update dbusrpos.sellhead_sh
+        set shthfs = 'J'
+      where SHXSDNO = #{item.shxsdno,jdbcType=VARCHAR}
+      </foreach>
+  </update>
+
   <insert id="insert" parameterType="java.util.List" useGeneratedKeys="false" >
     insert into dbusrpos.custaddrlist (SEQNO,GWKH,RECNAME,RECPHONENO,
-      RECPOSTCODE, RECPROVINCENAME, RECCITYNAME, 
-      RECAREANAME, RECTOWNNAME, RECDETAILADDRESS, 
-      "TYPE", MARKET, RECXSDNO, 
-      RECPKGCNT, FLAG,SEQNO_C,SQSJ)
-      select dbusrpos.SEQ_CUSTADDRLIST.nextval,t.* from (
-      <foreach collection="list" item="icaDto" index="index" separator="UNION ALL">
+        RECPOSTCODE, RECPROVINCENAME, RECCITYNAME,
+        RECAREANAME, RECTOWNNAME, RECDETAILADDRESS,
+        "TYPE", MARKET, RECXSDNO,
+        RECPKGCNT, FLAG,SEQNO_C,SQSJ)
+        select dbusrpos.SEQ_CUSTADDRLIST.nextval,t.* from (
+    <foreach collection="list" item="icaDto" index="index" separator="UNION ALL">
         select
             #{icaDto.gwkh,jdbcType=VARCHAR},
             #{icaDto.rec_name,jdbcType=VARCHAR},
@@ -62,8 +34,8 @@
             #{icaDto.flag,jdbcType=CHAR},
             #{icaDto.seqno_c,jdbcType=DECIMAL},
             sysdate
-        from dual
-      </foreach>
-      )t
-  </insert>
+       from dual
+    </foreach>
+        )t
+    </insert>
 </mapper>

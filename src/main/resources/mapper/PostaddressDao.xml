@@ -21,12 +21,8 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
-    from(select
-      <include refid="Base_Column_List" />
-      from custpostaddr
-      where GWKH = #{gwkh,jdbcType=VARCHAR}
-      order by FSDATE desc)
-    where rownum = 1
+    from custpostaddr
+   where GWKH = #{gwkh,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from custpostaddr

@@ -17,7 +17,6 @@ import java.util.Map;
 
 import static com.ctg.custpost.pojo.until.Constant.*;
 
-
 @Service
 public class QryBillIsPostServiceImpl implements QryBillIsPostService {
     @Autowired
@@ -57,9 +56,10 @@ public class QryBillIsPostServiceImpl implements QryBillIsPostService {
         }
         //取出ret_flag
         String ret_flag = (String) param.get("ret_flag");
-        if ("0".equals(ret_flag)) {
-            logger.error("该用户"+login.getOpen_id()+"不存在");
-            throw new CustPostNotFoundException(errCode6,errMsg6);
+        String ret_msg = (String) param.get("ret_msg");
+        if (!"1".equals(ret_flag)) {
+            logger.error("用户"+login.getOpen_id()+ret_msg);
+            throw new CustPostNotFoundException(errCode6,ret_msg);
         }
         return xsdnoDto;
     }

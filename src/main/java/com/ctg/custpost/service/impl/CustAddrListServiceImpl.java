@@ -74,7 +74,6 @@ public class CustAddrListServiceImpl implements CustAddrListService {
             logger.info("收件地址必须是岛外");
             throw new CustPostNotFoundException(errCode20,errMsg20);
         }
-
         List<BillEntity> PIlist = ica.getOrderList();
         Map<String,String> Markmap = new HashMap<String,String>();
         Markmap.put("6868",null);
@@ -83,7 +82,6 @@ public class CustAddrListServiceImpl implements CustAddrListService {
         Markmap.put("6127",null);
         Markmap.put("6132",null);
         Markmap.put("7016",null);
-
         //记录包裹数
         Map<String, Integer> pcgCntMap = new HashMap<String,Integer>();
         pcgCntMap.put("6868",0);
@@ -100,7 +98,6 @@ public class CustAddrListServiceImpl implements CustAddrListService {
         int pcgCntsyjc= 0;
         int pcgCntmljc= 0;
         List<InsertCustAddrDto> icadList = new ArrayList<InsertCustAddrDto>();
-
         //拼接各门店的提货单号
         if (PIlist != null) {
             for (int i = 0; i < PIlist.size(); i++) {
@@ -184,11 +181,11 @@ public class CustAddrListServiceImpl implements CustAddrListService {
                     icaDto.setRec_name(ica.getRec_name());
                     icaDto.setRec_phoneno(ica.getRec_phoneno());
                     icaDto.setRec_postcode(ica.getRec_postcode());
-                    icaDto.setRec_provincename(ica.getRec_provincename());
-                    icaDto.setRec_cityname(ica.getRec_cityname());
-                    icaDto.setRec_areaname(ica.getRec_areaname());
-                    icaDto.setRec_townname(ica.getRec_townname());
-                    icaDto.setRec_detailaddress(ica.getRec_detailaddress());
+                    icaDto.setRec_provincename("");
+                    icaDto.setRec_cityname("");
+                    icaDto.setRec_areaname("");
+                    icaDto.setRec_townname("");
+                    icaDto.setRec_detailaddress("");
                     icaDto.setType(ica.getType());
                     icaDto.setMarket(entry.getKey());
                     icaDto.setRec_xsdno(entry.getValue());
