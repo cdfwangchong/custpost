@@ -232,6 +232,7 @@ public class UserController {
             String token =  jsonObject.getString("access_token");
             String openid = jsonObject.getString("openid");
             logger.info("token:"+token+";"+"openid:"+openid);
+            String ret = WxtxUtil.getWxtx(openid,token);//取到客人头像
             //获取到客人信息
             Map<String,String> param=new HashMap<String,String>();
             param.put("open_id", openid);
@@ -250,10 +251,12 @@ public class UserController {
             user_name=param.get("user_name");
             //写入日志
             logger.info("ret_result（返回结果）:"+ret_flag+card_id+tel_num+openid+user_name);
+            retparam.put("access_token",token);
             retparam.put("open_id",openid);
-            retparam.put("tel_num",tel_num);
-            retparam.put("card_id",card_id);
-            retparam.put("user_name", user_name);
+//            retparam.put("tel_num",tel_num);
+//            retparam.put("card_id",card_id);
+//            retparam.put("user_name", user_name);
+            retparam.put("userinfo",ret);
             }else {
                 String errcode =  jsonObject.getString("errcode");
                 String errmsg = jsonObject.getString("errmsg");
