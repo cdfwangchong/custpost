@@ -66,13 +66,15 @@ public class CustAddrListServiceImpl implements CustAddrListService {
         Userlist ul = ulDao.selectByPrimaryKey(ica.getOpen_id());
         String gwkh = ul.getIdseq();//客人的购物卡号
         String telphno = ul.getName();//客人姓名
-        if (!telphno.equals(ica.getRec_name())) {
-            logger.info("收件人必须是顾客本人");
-            throw new CustPostNotFoundException(errCode10,errMsg10);
-        }
-        if ("海南省".equals(ica.getRec_provincename())) {
-            logger.info("收件地址必须是岛外");
-            throw new CustPostNotFoundException(errCode20,errMsg20);
+        if ("1".equals(ica.getType())) {
+            if (!telphno.equals(ica.getRec_name())) {
+                logger.info("收件人必须是顾客本人");
+                throw new CustPostNotFoundException(errCode10,errMsg10);
+            }
+            if ("海南省".equals(ica.getRec_provincename())) {
+                logger.info("收件地址必须是岛外");
+                throw new CustPostNotFoundException(errCode20,errMsg20);
+            }
         }
         List<BillEntity> PIlist = ica.getOrderList();
         Map<String,String> Markmap = new HashMap<String,String>();
