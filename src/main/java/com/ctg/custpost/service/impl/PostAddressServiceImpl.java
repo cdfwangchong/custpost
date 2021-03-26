@@ -48,7 +48,7 @@ public class PostAddressServiceImpl implements PostAddressService {
                         +paDto.getRec_detailaddress());
                 paDto.setOpen_id(login.getOpen_id());
             }else {
-                logger.error("获取到的对象值为空");
+                logger.error(gwkh+"获取到的对象值为空");
                 throw new CustPostNotFoundException(errCode19,errMsg19);
             }
         } catch (Exception e) {
@@ -73,28 +73,31 @@ public class PostAddressServiceImpl implements PostAddressService {
             logger.error(ipdDto.getGwkh()+"未注册");
             throw new CustPostNotFoundException(errCode7,errMsg7);
         }
+        String gwkh = ul.getIdseq();
         ipdDto.setGwkh(ul.getIdseq());
         String recname = ul.getName();//EOP用户表中的顾客名称
         String crname = ipdDto.getRec_name();//接口传入的顾客名称
+        logger.info(gwkh+"EOP用户表中的顾客名称"+recname);
+        logger.info(gwkh+"接口传入的收件人名称"+crname);
         logger.info("新增顾客地址前查出客人购物卡号"+ul.getIdseq());
         int result;
 
         if ("海南省".equals(ipdDto.getRec_provincename())) {
-            logger.info("收件地址必须是岛外");
+            logger.info(gwkh+"收件地址必须是岛外");
             throw new CustPostNotFoundException(errCode20,errMsg20);
         }
         if (!recname.equals(crname)) {
-            logger.info("收件必须是顾客本人");
+            logger.info(gwkh+"收件必须是顾客本人");
             throw new CustPostNotFoundException(errCode20,errMsg20_1);
         }
         try {
             result = paDao.insert(ipdDto);
         } catch (Exception e) {
-            logger.error(recname+ipdDto.getOpen_id()+"在地址管理表中已经存在");
-            throw new CustPostNotFoundException(errCode24,recname+ipdDto.getOpen_id()+errMsg24);
+            logger.error(recname+gwkh+"在地址管理表中已经存在");
+            throw new CustPostNotFoundException(errCode24,recname+gwkh+errMsg24);
         }
         if (result > 0) {
-            logger.info("顾客"+ul.getName()+"地址新增成功");
+            logger.info(gwkh+"顾客"+ul.getName()+"地址新增成功");
         }
         return result;
     }
@@ -103,10 +106,10 @@ public class PostAddressServiceImpl implements PostAddressService {
     public int updatePostAddress(PostaddressDto ipaDto) {
         //查出顾客的购物卡号
         Userlist ul = ulDao.selectByPrimaryKey(ipaDto.getOpen_id());
-        ipaDto.setGwkh(ul.getIdseq());
-        logger.info("新增顾客地址前查出客人购物卡号"+ul.getIdseq());
+        String gwkh = ul.getIdseq();
+        ipaDto.setGwkh(gwkh);
+        logger.info("新增顾客地址前查出客人购物卡号"+gwkh);
         int result;
-        Map param = new HashMap<String,Integer>();
         String recname = ul.getName();//EOP用户表中的顾客名称
         String crname = ipaDto.getRec_name();//接口传入的顾客名称
         if ("海南省".equals(ipaDto.getRec_provincename())) {
@@ -117,26 +120,13 @@ public class PostAddressServiceImpl implements PostAddressService {
             logger.info("收件必须是顾客本人");
             throw new CustPostNotFoundException(errCode20,errMsg20_1);
         }
-//        try {
-//            //先判断是否可以修改
-//            param.put("openId",ipaDto.getOpen_id());
-//            paDao.ismodifyaddress(param);
-//        } catch (Exception e) {
-//            logger.error("判断是否可以写入地址表时存储过程返回异常");
-//            throw new CustPostNotFoundException(errCode,errMsg);
-//        }
-//        String ret_flag = (String) param.get("ret_flag");
-//        if ("1".equals(ret_flag)) {
-//            logger.info("顾客"+ul.getName()+"存在未完结的邮寄申请，不能修改地址");
-//            throw new CustPostNotFoundException(errCode14,errMsg14);
-//        }
         try {
             result = paDao.updateByPrimaryKey(ipaDto);
             if (result > 0) {
-                logger.info("顾客"+ul.getName()+"地址新增成功");
+                logger.info("顾客"+ul.getName()+"地址更新成功");
             }
         } catch (Exception e) {
-            logger.error("邮寄地址管理表写入异常");
+            logger.error(gwkh+"邮寄地址管理表更新异常");
             throw new CustPostNotFoundException(errCode,errMsg);
         }
         return 0;

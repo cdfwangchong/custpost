@@ -17,7 +17,7 @@ import static com.ctg.custpost.pojo.until.Constant.*;
  * project name :自助邮寄
  * for:用户解绑
  * author：wangc
- * time：2021-03-06
+ * time：2021-3-26
  * */
 @Controller
 @RequestMapping("/cdfg")

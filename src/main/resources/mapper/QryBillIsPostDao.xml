@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ctg.custpost.dao.QryBillIsPostDao">
-    <select id="qryNotPostBill" statementType="CALLABLE" resultType="java.util.Map">
+    <select id="qryNotPostBill" statementType="CALLABLE" resultType="java.util.Map" useCache="false">
         {CALL dbusrit.if_custpost.qry_sellhead
         (#{openId,mode=IN,jdbcType=VARCHAR},
         #{wyjRc,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=BillEntity},
@@ -18,7 +18,7 @@
         <result column="shoughtpay" property="shoughtpay"/>
     </resultMap>
 
-    <select id="qryPostBill" statementType="CALLABLE" resultType="java.util.Map">
+    <select id="qryPostBill" statementType="CALLABLE" resultType="java.util.Map" useCache="false">
         {CALL dbusrit.if_custpost.qry_custaddrlist
         (#{openId,mode=IN,jdbcType=VARCHAR},
         #{yjRc,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=CustAddrlistEntity}

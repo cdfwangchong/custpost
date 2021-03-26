@@ -10,6 +10,9 @@ import com.ctg.custpost.service.QryBillIsPostService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,12 +72,12 @@ public class QryBillIsPostServiceImpl implements QryBillIsPostService {
      * @param login
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout = 30,rollbackFor = Exception.class)
     @Override
     public List<CustAddrlistEntity> qryPostBill(Login login) {
         Map param = new HashMap<String,String>();
         param.put("openId",login.getOpen_id());
         List<CustAddrlistEntity> beyList;
-
         try {
             qbipDao.qryPostBill(param);
 

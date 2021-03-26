@@ -19,7 +19,7 @@ import static com.ctg.custpost.pojo.until.Constant.*;
  * project name :自助邮寄
  * for:未邮寄提货单接口和已经邮寄的提货单接口
  * author：wangc
- * time：2020-10-10
+ * time：2021-3-26
  * */
 @CrossOrigin
 @RestController
@@ -76,7 +76,6 @@ public class QryBillIsPostController {
             String address = be.getRec_provincename()+be.getRec_cityname()+be.getRec_areaname()+be.getRec_townname()+be.getRec_detailaddress();
             logger.info("取到邮寄提货单接口返回值："+be.getRec_name()+"#"+be.getRec_xsdno()+"#"+be.getSeq_no()+address);
         }
-
         return new Result<List<CustAddrlistEntity>>(sucCode,sucMsg,beList);
     }
 }

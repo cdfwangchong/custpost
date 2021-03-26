@@ -28,8 +28,8 @@ public class QryTraceServiceImpl implements QryTranceService {
         }
         Map param = new HashMap<String,String>();
         List<WaybilltraceDto> beList;
-        String ret_flag=null;
-        String ret_msg=null;
+        String ret_flag;
+        String ret_msg;
         try {
             param.put("traceno",trance);
             qrytranceDao.QryWaybilltrace(param);
@@ -37,17 +37,18 @@ public class QryTraceServiceImpl implements QryTranceService {
             beList = (List<WaybilltraceDto>) param.get("traceRc");
             ret_flag = (String)param.get("ret_flag");
             ret_msg = (String)param.get("ret_msg");
-            if (!"1002".equals(ret_flag)) {
-                logger.error("查询运单轨迹失败");
-                throw new CustPostNotFoundException(errCode,ret_msg);
-            }
-            if (beList.isEmpty()) {
-                logger.error("返回的运单轨迹结果集为空");
-                throw new CustPostNotFoundException(errCode21,errMsg21);
-            }
+
         } catch (Exception e) {
-            logger.error("查询运单轨迹存储过程返回值异常");
-            throw new CustPostNotFoundException(errCode22,errMsg22);
+            logger.error("运单号"+trance+"无运输轨迹");
+            throw new CustPostNotFoundException(errCode22,"运单号"+trance+"无运输轨迹");
+        }
+        if (!"1002".equals(ret_flag)) {
+            logger.error("查询运单轨迹失败");
+            throw new CustPostNotFoundException(errCode,ret_msg);
+        }
+        if (beList.isEmpty()) {
+            logger.error("返回的运单轨迹结果集为空");
+            throw new CustPostNotFoundException(errCode21,errMsg21);
         }
         logger.info("ret_flag"+ret_flag+" ret_msg："+ret_msg);
         return beList;

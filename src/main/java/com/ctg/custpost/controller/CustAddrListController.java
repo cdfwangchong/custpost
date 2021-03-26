@@ -15,7 +15,7 @@ import static com.ctg.custpost.pojo.until.Constant.*;
  * project name :自助邮寄
  * for:商品邮寄接口
  * author：wangc
- * time：2020-10-10
+ * time：2021-3-26
  *
  * */
 @CrossOrigin

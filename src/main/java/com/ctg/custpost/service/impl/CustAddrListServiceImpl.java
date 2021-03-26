@@ -12,6 +12,9 @@ import com.ctg.custpost.service.CustAddrListService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +41,7 @@ public class CustAddrListServiceImpl implements CustAddrListService {
      * @param ica
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout = 30,rollbackFor = Exception.class)
     @Override
     public boolean insertCustAddrList(InsertCustAddrAndListDto ica) {
         //当取消邮寄申请时，判断是否符合条件取消
@@ -203,12 +207,12 @@ public class CustAddrListServiceImpl implements CustAddrListService {
                 }
             }
         } catch (Exception e) {
-            logger.error("邮寄信息写入异常");
+            logger.error(gwkh+"邮寄信息写入异常");
             throw new CustPostNotFoundException(errCode3,errMsg3);
         }
             int ret = clDao.insert(icadList);
             if (ret != icadList.size()) {
-                logger.error("List中的数据没有正确写入顾客地址列表");
+                logger.error(gwkh+"数据没有正确写入顾客地址列表");
                 throw new CustPostNotFoundException(errCode4,errMsg4);
             }
         return true;
