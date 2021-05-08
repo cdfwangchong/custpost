@@ -16,10 +16,10 @@ public class AuthUtil {
 	
 	static Logger logger = Logger.getLogger(AuthUtil.class);
 	
-	public final static String APPID = "wxda0f17566f1991b3";//测试
-    public final static String APPSECRET ="4c626d03492593efaac6a845689a1dad";//测试
-//	public final static String APPID = "wx9b6a1621e8902c87";//正式
-//    public final static String APPSECRET ="21d3260f71a2d4ed331dc166898d5b13";//正式
+//	public final static String APPID = "wxda0f17566f1991b3";//测试
+//    public final static String APPSECRET ="4c626d03492593efaac6a845689a1dad";//测试
+	public final static String APPID = "wx9b6a1621e8902c87";//正式
+    public final static String APPSECRET ="21d3260f71a2d4ed331dc166898d5b13";//正式
 
     public static JSONObject doGetJson(String CODE_ID) {
     	

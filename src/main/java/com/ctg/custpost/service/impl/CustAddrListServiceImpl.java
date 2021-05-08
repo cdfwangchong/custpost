@@ -46,6 +46,7 @@ public class CustAddrListServiceImpl implements CustAddrListService {
     public boolean insertCustAddrList(InsertCustAddrAndListDto ica) {
         //当取消邮寄申请时，判断是否符合条件取消
         Map param = new HashMap<String,Integer>();
+        String type = ica.getType();
         if ("2".equals(ica.getType())) {
             param.put("seq_no",ica.getSeq_no());
             String ret_flag;
@@ -69,16 +70,24 @@ public class CustAddrListServiceImpl implements CustAddrListService {
         //查出顾客的购物卡号
         Userlist ul = ulDao.selectByPrimaryKey(ica.getOpen_id());
         String gwkh = ul.getIdseq();//客人的购物卡号
-        String telphno = ul.getName();//客人姓名
+        String username = ul.getName();//客人姓名
+        String phoneno = ul.getTelphno();
+        String provincename = ica.getRec_provincename();
+        String recname = ica.getRec_name();
         if ("1".equals(ica.getType())) {
-            if (!telphno.equals(ica.getRec_name())) {
+            if (!username.equals(recname)&& !recname.isEmpty()) {
                 logger.info("收件人必须是顾客本人");
                 throw new CustPostNotFoundException(errCode10,errMsg10);
             }
-            if ("海南省".equals(ica.getRec_provincename())) {
+            if ("海南省".equals(provincename)&& !provincename.isEmpty()) {
                 logger.info("收件地址必须是岛外");
                 throw new CustPostNotFoundException(errCode20,errMsg20);
             }
+        }
+
+        if ("2".equals(type) && recname.isEmpty()) {
+            ica.setRec_name(username);
+            ica.setRec_phoneno(phoneno);
         }
         List<BillEntity> PIlist = ica.getOrderList();
         Map<String,String> Markmap = new HashMap<String,String>();
@@ -186,7 +195,7 @@ public class CustAddrListServiceImpl implements CustAddrListService {
                     InsertCustAddrDto icaDto = new InsertCustAddrDto();
                     icaDto.setRec_name(ica.getRec_name());
                     icaDto.setRec_phoneno(ica.getRec_phoneno());
-                    icaDto.setRec_postcode(ica.getRec_postcode());
+                    icaDto.setRec_postcode("");
                     icaDto.setRec_provincename("");
                     icaDto.setRec_cityname("");
                     icaDto.setRec_areaname("");

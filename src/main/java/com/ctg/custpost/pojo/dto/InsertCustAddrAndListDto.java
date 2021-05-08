@@ -18,7 +18,7 @@ public class InsertCustAddrAndListDto {
     }
 
     public void setRec_name(String rec_name) {
-        this.rec_name = rec_name;
+        this.rec_name = rec_name==null?"":rec_name.trim();
     }
 
     public String getRec_detailaddress() {
@@ -34,7 +34,7 @@ public class InsertCustAddrAndListDto {
     }
 
     public void setRec_provincename(String rec_provincename) {
-        this.rec_provincename = rec_provincename;
+        this.rec_provincename = rec_provincename==null?"":rec_provincename.trim();
     }
 
     public String getRec_cityname() {
