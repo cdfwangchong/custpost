@@ -8,4 +8,5 @@ public interface SignatureService {
     Result uploadSigPic(SigPicDto sigPicDTO);
 
     String qrySign(CheckInfoDto ciDto);
+
 }

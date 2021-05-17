@@ -18,6 +18,7 @@ import static com.ctg.custpost.pojo.until.Constant.errMsg19;
  *
  * time 2021/4/27
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/cdfg")
 public class SignatureController {
